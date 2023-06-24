@@ -31,9 +31,14 @@ namespace TowerOfHanoiAgain
             string to = "";
             bool yn = true;
             int moves = 0;
+            int pScore = 0;
 
             //no setup.ini muna
             diskNum = 3;
+            if(diskNum == 3)
+            {
+                pScore = 7;
+            }
 
             for (int x = diskNum - 1; x >= 0; x--)
             {
@@ -81,8 +86,8 @@ namespace TowerOfHanoiAgain
             if (tower2.Count == 3)
             {
                 Console.WriteLine("Congratulations! You finished the game with 7 moves!" +
-                                    "\nThe perfect score is " +
-                                    "\nWow! You finished with a score of {1}", moves);
+                                    "\nThe perfect score is {0}" +
+                                    "\nWow! You finished with a score of {1}", pScore, moves);
             }
 
             Console.ReadKey();
