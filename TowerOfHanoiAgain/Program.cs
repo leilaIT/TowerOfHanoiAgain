@@ -47,7 +47,7 @@ namespace TowerOfHanoiAgain
 
             initializeTower(moves, diskNum, tower0);
 
-            while (tower2.Count != 3)
+            while (tower2.Count != diskNum)
             {
                 Console.Write("\nWhat would you like your move to be?");
                 Console.WriteLine("\n\n\nMove format is X-Y." +
@@ -83,11 +83,12 @@ namespace TowerOfHanoiAgain
                 displayTower(moves, diskNum, tower0, tower1, tower2);
             }
 
-            if (tower2.Count == 3)
+            if (tower2.Count == diskNum)
             {
-                Console.WriteLine("Congratulations! You finished the game with 7 moves!" +
-                                    "\nThe perfect score is {0}" +
-                                    "\nWow! You finished with a score of {1}", pScore, moves);
+                Console.WriteLine("Congratulations! You finished the game with {0} moves!" +
+                                    "\nThe perfect score is {1}", moves, pScore);
+                if(moves == pScore)
+                    Console.WriteLine("Wow! You finished with a perfect score of {0}", moves);
             }
 
             Console.ReadKey();
