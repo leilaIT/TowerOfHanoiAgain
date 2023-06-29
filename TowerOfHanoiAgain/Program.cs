@@ -30,6 +30,8 @@ namespace TowerOfHanoiAgain
             string from = "";
             string to = "";
             bool yn = true;
+            string input = "";
+            string[] toSplit = new string[] { };
             int moves = 0;
             int pScore = 0;
 
@@ -39,7 +41,16 @@ namespace TowerOfHanoiAgain
             {
                 pScore = 7;
             }
+            else if (diskNum == 5)
+            {
+                pScore = 31;
+            }
+            else if (diskNum == 7)
+            {
+                pScore = 127;
+            }
 
+            //putting disks to tower
             for (int x = diskNum - 1; x >= 0; x--)
             {
                 tower0.Push(list[x]);
@@ -56,9 +67,13 @@ namespace TowerOfHanoiAgain
                               "\nRules to remember:" +
                               "\nA larger disk cannot be on top of a smaller disk" +
                               "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
+                
+                input = Console.ReadLine();
+                toSplit = new string[] { };
+                toSplit = input.Split('-');
+                from = toSplit[0];
+                to = toSplit[1];
 
-                from = Console.ReadLine();
-                to = Console.ReadLine();
                 Console.Clear();
 
                 if (from == "0")
@@ -75,10 +90,19 @@ namespace TowerOfHanoiAgain
                 else if (to == "2")
                     toT = tower2;
 
-                //moving of disks
-                toT.Push(fromT.ElementAt(0)); //to
-                fromT.Pop(); //from
-                moves++;
+                if(toT.Count == 0)
+                {
+                    diskMoving(fromT, toT);
+                    moves++;
+                }
+                else
+                {
+                    if (fromT.ElementAt(0).Length < toT.ElementAt(0).Length)
+                    {
+                        diskMoving(fromT, toT);
+                        moves++;
+                    }
+                }
 
                 displayTower(moves, diskNum, tower0, tower1, tower2);
             }
@@ -86,14 +110,20 @@ namespace TowerOfHanoiAgain
             if (tower2.Count == diskNum)
             {
                 Console.WriteLine("Congratulations! You finished the game with {0} moves!" +
-                                    "\nThe perfect score is {1}", moves, pScore);
+                                    "\nThe perfect score is {1}.", moves, pScore);
                 if(moves == pScore)
-                    Console.WriteLine("Wow! You finished with a perfect score of {0}", moves);
+                    Console.WriteLine("Wow! You finished with a perfect score of 100!", moves);
             }
 
             Console.ReadKey();
         }
 
+        static void diskMoving (Stack<string> fromT, Stack<string> toT)
+        {
+            //moving of disks
+            toT.Push(fromT.ElementAt(0)); //to
+            fromT.Pop(); //from
+        }
         static Stack<string> initializeTower(int moves, int diskNum, Stack<string> tower0)
         {
             Console.WriteLine("Welcome to Tower of Hanoi");
@@ -106,7 +136,23 @@ namespace TowerOfHanoiAgain
                 for (int y = 1; y <= diskNum - x; y++)
                     Console.Write(" ");
 
+                if (tower0.ElementAt(x).Length == 3)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                else if (tower0.ElementAt(x).Length == 5)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (tower0.ElementAt(x).Length == 7)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else if (tower0.ElementAt(x).Length == 9)
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                else if (tower0.ElementAt(x).Length == 11)
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                else if (tower0.ElementAt(x).Length == 13)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else if (tower0.ElementAt(x).Length == 15)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine(tower0.ElementAt(x));
+                Console.ResetColor();
             }
             Console.WriteLine("\nTower 1");
             Console.WriteLine("\nTower 2");
@@ -125,7 +171,23 @@ namespace TowerOfHanoiAgain
                 for (int y = 1; y <= tower0.Count - x; y++)
                     Console.Write(" ");
 
+                if (tower0.ElementAt(x).Length == 3)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                else if (tower0.ElementAt(x).Length == 5)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (tower0.ElementAt(x).Length == 7)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else if (tower0.ElementAt(x).Length == 9)
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                else if (tower0.ElementAt(x).Length == 11)
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                else if (tower0.ElementAt(x).Length == 13)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else if (tower0.ElementAt(x).Length == 15)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine(tower0.ElementAt(x));
+                Console.ResetColor();
             }
 
             Console.WriteLine("\nTower 1");
@@ -134,7 +196,23 @@ namespace TowerOfHanoiAgain
                 for (int y = 1; y <= tower1.Count - x; y++)
                     Console.Write(" ");
 
+                if (tower1.ElementAt(x).Length == 3)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                else if (tower1.ElementAt(x).Length == 5)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (tower1.ElementAt(x).Length == 7)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else if (tower1.ElementAt(x).Length == 9)
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                else if (tower1.ElementAt(x).Length == 11)
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                else if (tower1.ElementAt(x).Length == 13)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else if (tower1.ElementAt(x).Length == 15)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine(tower1.ElementAt(x));
+                Console.ResetColor();
             }
 
             Console.WriteLine("\nTower 2");
@@ -143,7 +221,23 @@ namespace TowerOfHanoiAgain
                 for (int y = 1; y <= tower2.Count - x; y++)
                     Console.Write(" ");
 
+                if (tower2.ElementAt(x).Length == 3)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                else if (tower2.ElementAt(x).Length == 5)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (tower2.ElementAt(x).Length == 7)
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                else if (tower2.ElementAt(x).Length == 9)
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                else if (tower2.ElementAt(x).Length == 11)
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                else if (tower2.ElementAt(x).Length == 13)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else if (tower2.ElementAt(x).Length == 15)
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine(tower2.ElementAt(x));
+                Console.ResetColor();
             }
 
             return tower1;
