@@ -24,6 +24,7 @@ namespace TowerOfHanoiAgain
 
             Stack<string> fromT = new Stack<string>();
             Stack<string> toT = new Stack<string>();
+            int level = 0;
             int diskNum = 0;
             int startDisk = 3;
             string from = "";
@@ -35,17 +36,20 @@ namespace TowerOfHanoiAgain
             int pScore = 0;
 
             //no setup.ini muna
-            diskNum = 3;
-            if(diskNum == 3)
+            level = 1;
+            if (level == 1)
             {
+                diskNum = 3;
                 pScore = 7;
             }
-            else if (diskNum == 5)
+            else if (level == 2)
             {
+                diskNum = 5;
                 pScore = 31;
             }
-            else if (diskNum == 7)
+            else if (level == 3)
             {
+                diskNum = 7;
                 pScore = 127;
             }
 
