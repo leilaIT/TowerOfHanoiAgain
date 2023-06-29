@@ -14,7 +14,6 @@ namespace TowerOfHanoiAgain
             //3 stack ver
             ////MUST FIX:
             //disk generation
-            //disk colors
             //tower alignment
             //move history
 
@@ -60,13 +59,7 @@ namespace TowerOfHanoiAgain
 
             while (tower2.Count != diskNum)
             {
-                Console.Write("\nWhat would you like your move to be?");
-                Console.WriteLine("\n\n\nMove format is X-Y." +
-                              "\nX is the number of the tower the disk will come from" +
-                              "\nY is the number of the tower the disk will go to" +
-                              "\nRules to remember:" +
-                              "\nA larger disk cannot be on top of a smaller disk" +
-                              "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
+                rules();
                 
                 input = Console.ReadLine();
                 toSplit = new string[] { };
@@ -97,6 +90,7 @@ namespace TowerOfHanoiAgain
                 }
                 else
                 {
+                    //checks if from disk is larger than to disk
                     if (fromT.ElementAt(0).Length < toT.ElementAt(0).Length)
                     {
                         diskMoving(fromT, toT);
@@ -113,11 +107,23 @@ namespace TowerOfHanoiAgain
                                     "\nThe perfect score is {1}.", moves, pScore);
                 if(moves == pScore)
                     Console.WriteLine("Wow! You finished with a perfect score of 100!", moves);
+                
+                rules();
             }
 
             Console.ReadKey();
         }
 
+        static void rules ()
+        {
+            Console.Write("\nWhat would you like your move to be?");
+            Console.WriteLine("\n\n\nMove format is X-Y." +
+                          "\nX is the number of the tower the disk will come from" +
+                          "\nY is the number of the tower the disk will go to" +
+                          "\nRules to remember:" +
+                          "\nA larger disk cannot be on top of a smaller disk" +
+                          "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
+        }
         static void diskMoving (Stack<string> fromT, Stack<string> toT)
         {
             //moving of disks
