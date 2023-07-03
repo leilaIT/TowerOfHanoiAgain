@@ -11,47 +11,47 @@ namespace TowerOfHanoiAgain
     {
         static void Main(string[] args)
         {
-            //3 stack ver
-            ////MUST FIX:
-            //disk generation
-            //tower alignment
-
             List<string> disks = new List<string>() { "===", "=====", "=======", "=========", "===========", "=============", "===============" };
             List<string> history = new List<string>();
             Stack<string> tower0 = new Stack<string>();
             Stack<string> tower1 = new Stack<string>();
             Stack<string> tower2 = new Stack<string>();
+            Stack<string>[] allTowers = new Stack<string>[3];
 
             Stack<string> fromT = new Stack<string>();
             Stack<string> toT = new Stack<string>();
             int level = 0;
             int diskNum = 0;
             int startDisk = 3;
+            double pScore = 0;
+            double baseNum = 2;
             string from = "";
             string to = "";
             bool yn = true;
             string input = "";
             string[] toSplit = new string[] { };
             int moves = 0;
-            int pScore = 0;
+            string mode = "";
 
-            //no setup.ini muna
-            level = 1;
+            level = setupFile(level);
             if (level == 1)
             {
                 diskNum = 3;
-                pScore = 7;
+                mode = "Easy";
             }
             else if (level == 2)
             {
                 diskNum = 5;
-                pScore = 31;
+                mode = "Medium";
             }
             else if (level == 3)
             {
                 diskNum = 7;
-                pScore = 127;
+                mode = "Hard";
             }
+
+            //perfect score
+            pScore = Math.Pow(baseNum, diskNum) - 1;
 
             //putting disks to tower
             for (int x = diskNum - 1; x >= 0; x--)
@@ -59,25 +59,48 @@ namespace TowerOfHanoiAgain
                 tower0.Push(disks[x]);
             }
 
-            history.Add("This is the move history for the last played game of difficulty.");
+            history.Add("This is the move history for the last played game of " + mode + " difficulty.");
 
-            move(moves);
-            displayTower(moves, diskNum, tower0, "0");
+            Console.WriteLine("Welcome to Tower of Hanoi");
+            Console.WriteLine("Current move count : {0}", moves);
+
+            displayTower(tower0, "0");
             Console.WriteLine("\nTower 1");
             Console.WriteLine("\nTower 2");
 
             while (tower2.Count != diskNum)
             {
                 Console.Write("\nWhat would you like your move to be?\n");
-                rules();
+                Console.WriteLine("\n\nMove format is X-Y." +
+                          "\nX is the number of the tower the disk will come from" +
+                          "\nY is the number of the tower the disk will go to" +
+                          "\nRules to remember:" +
+                          "\nA larger disk cannot be on top of a smaller disk" +
+                          "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
                 Console.SetCursorPosition(37, 12);
-
-                input = Console.ReadLine();
-                toSplit = new string[] { };
-                toSplit = input.Split('-');
-                from = toSplit[0];
-                to = toSplit[1];
                 
+                while (true)
+                {
+                    input = Console.ReadLine();
+                    toSplit = new string[] { };
+                    toSplit = input.Split('-');
+                    from = toSplit[0];
+                    to = toSplit[1];
+
+                    if (!input.Contains("-") || int.Parse(from) > 3 || int.Parse(from) < 0 || int.Parse(to) > 3 || int.Parse(to) < 0 || input.Length > 3)
+                    {
+                        Console.WriteLine("{0} is not an input. . . Press any key to continue. . .", input);
+                        Console.ReadKey();
+                        Console.SetCursorPosition(37, 12);
+                        Console.Write("                          ");
+                        Console.SetCursorPosition(0, 13);
+                        Console.Write("                                                         ");
+                        Console.SetCursorPosition(37, 12);
+                    }
+                    else
+                        break;
+                }
+
                 Console.Clear();
 
                 if (from == "0")
@@ -110,11 +133,12 @@ namespace TowerOfHanoiAgain
                         moves++;
                     }
                 }
-                move(moves);
+                Console.WriteLine("Welcome to Tower of Hanoi");
+                Console.WriteLine("Current move count : {0}", moves);
 
-                displayTower(moves, diskNum, tower0, "0");
-                displayTower(moves, diskNum, tower1, "1");
-                displayTower(moves, diskNum, tower2, "2");
+                displayTower(tower0, "0");
+                displayTower(tower1, "1");
+                displayTower(tower2, "2");
 
             }
 
@@ -122,8 +146,8 @@ namespace TowerOfHanoiAgain
             {
                 Console.WriteLine("\nCongratulations! You finished the game with {0} moves!" +
                                     "\nThe perfect score is {1}.", moves, pScore);
-                history.Add("You finished the game with " + moves + "moves.");
-                history.Add("The perfect score is " + moves);
+                history.Add("You finished the game with " + moves + " moves.");
+                history.Add("The perfect score is " + pScore);
 
                 if(moves == pScore)
                 {
@@ -131,29 +155,32 @@ namespace TowerOfHanoiAgain
                     history.Add("You scored 100%");
                 }
 
-                rules();
-                moveHistory(history);
-            }
-
-            Console.ReadKey();
-        }
-        static int move (int moves)
-        {
-            Console.WriteLine("Welcome to Tower of Hanoi");
-            Console.WriteLine("Current move count : {0}", moves);
-            
-            return moves;
-        }
-        static void rules ()
-        {
-            Console.WriteLine("\nMove format is X-Y." +
+                Console.WriteLine("\n\nMove format is X-Y." +
                           "\nX is the number of the tower the disk will come from" +
                           "\nY is the number of the tower the disk will go to" +
                           "\nRules to remember:" +
                           "\nA larger disk cannot be on top of a smaller disk" +
                           "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
+                moveHistory(history);
+            }
+
+            Console.ReadKey();
         }
-        static void displayTower(int moves, int diskNum, Stack<string> tower, string num)
+        static int setupFile(int level)
+        {
+            string fileName = "setup.ini";
+            string line = "";
+            using (StreamReader sr = new StreamReader(fileName + ".ini"))
+            {
+                while ((line = sr.ReadLine()) != null)
+                {
+                    level = int.Parse(line);
+                }
+            }
+
+            return level;
+        }
+        static void displayTower(Stack<string> tower, string num)
         {
             Console.WriteLine();
             Console.WriteLine("Tower {0}", num);
@@ -190,6 +217,7 @@ namespace TowerOfHanoiAgain
         }
         static void moveHistory (List<string> history)
         {
+            history.Add(" ");
             string filename = "History__";
             using (StreamWriter sw = new StreamWriter(filename + ".txt"))
             {
