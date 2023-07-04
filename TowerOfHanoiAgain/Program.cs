@@ -126,8 +126,7 @@ namespace TowerOfHanoiAgain
 
                 if(toT.Count == 0)
                 {
-                    diskMoving(fromT, toT);
-                    history.Add("Move disk from tower " + from + " to tower " + to);
+                    diskMoving(fromT, toT, history, from, to);
                     moves++;
                 }
                 else
@@ -135,8 +134,7 @@ namespace TowerOfHanoiAgain
                     //checks if from disk is larger than to disk
                     if (fromT.ElementAt(0).Length < toT.ElementAt(0).Length)
                     {
-                        diskMoving(fromT, toT);
-                        history.Add("Move disk from tower " + from + " to tower " + to);
+                        diskMoving(fromT, toT, history, from, to);
                         moves++;
                     }
                 }
@@ -231,11 +229,14 @@ namespace TowerOfHanoiAgain
                 Console.WriteLine();
             }
         }
-        static void diskMoving(Stack<string> fromT, Stack<string> toT)
+        static List<string> diskMoving(Stack<string> fromT, Stack<string> toT, List<string> history, string from, string to)
         {
             //moving of disks
             toT.Push(fromT.ElementAt(0)); //to
             fromT.Pop(); //from
+            history.Add("Move disk from tower " + from + " to tower " + to);
+            
+            return history;
         }
         static void moveHistory (List<string> history)
         {
