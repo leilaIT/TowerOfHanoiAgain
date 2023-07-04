@@ -32,20 +32,28 @@ namespace TowerOfHanoiAgain
             string[] toSplit = new string[] { };
             int moves = 0;
             string mode = "";
+            int a = 0;
+            int b = 0;
 
             level = setupFile(level);
             if (level == 1)
             {
+                a = 37;
+                b = 12;
                 diskNum = 3;
                 mode = "Easy";
             }
             else if (level == 2)
             {
+                a = 37;
+                b = 14;
                 diskNum = 5;
                 mode = "Medium";
             }
             else if (level == 3)
             {
+                a = 37;
+                b = 16;
                 diskNum = 7;
                 mode = "Hard";
             }
@@ -64,7 +72,7 @@ namespace TowerOfHanoiAgain
             Console.WriteLine("Welcome to Tower of Hanoi");
             Console.WriteLine("Current move count : {0}", moves);
 
-            displayTower(tower0, "0");
+            displayTower(tower0, "0", disks, diskNum);
             Console.WriteLine("\nTower 1");
             Console.WriteLine("\nTower 2");
 
@@ -77,7 +85,7 @@ namespace TowerOfHanoiAgain
                           "\nRules to remember:" +
                           "\nA larger disk cannot be on top of a smaller disk" +
                           "\nThe goal of this game is to transfer disks from tower 0 to tower 2");
-                Console.SetCursorPosition(37, 12);
+                Console.SetCursorPosition(a, b);
                 
                 while (true)
                 {
@@ -85,17 +93,19 @@ namespace TowerOfHanoiAgain
                     toSplit = new string[] { };
                     toSplit = input.Split('-');
                     from = toSplit[0];
-                    to = toSplit[1];
+                    if(input.Contains("-"))
+                        to = toSplit[1];
 
                     if (!input.Contains("-") || int.Parse(from) > 3 || int.Parse(from) < 0 || int.Parse(to) > 3 || int.Parse(to) < 0 || input.Length > 3)
                     {
+                        
                         Console.WriteLine("{0} is not an input. . . Press any key to continue. . .", input);
                         Console.ReadKey();
-                        Console.SetCursorPosition(37, 12);
-                        Console.Write("                          ");
-                        Console.SetCursorPosition(0, 13);
-                        Console.Write("                                                         ");
-                        Console.SetCursorPosition(37, 12);
+                        Console.SetCursorPosition(a, b);
+                        Console.Write(new string(' ', 100));
+                        Console.SetCursorPosition(0, b + 1);
+                        Console.Write(new string(' ', 200));
+                        Console.SetCursorPosition(a, b);
                     }
                     else
                         break;
@@ -136,9 +146,9 @@ namespace TowerOfHanoiAgain
                 Console.WriteLine("Welcome to Tower of Hanoi");
                 Console.WriteLine("Current move count : {0}", moves);
 
-                displayTower(tower0, "0");
-                displayTower(tower1, "1");
-                displayTower(tower2, "2");
+                displayTower(tower0, "0", disks, diskNum);
+                displayTower(tower1, "1", disks, diskNum);
+                displayTower(tower2, "2", disks, diskNum);
 
             }
 
@@ -180,15 +190,18 @@ namespace TowerOfHanoiAgain
 
             return level;
         }
-        static void displayTower(Stack<string> tower, string num)
+        static void displayTower(Stack<string> tower, string num, List<string>disks, int diskNum)
         {
             Console.WriteLine();
             Console.WriteLine("Tower {0}", num);
 
+            int diskMax = disks[diskNum - 1].Length;
+
             for (int x = 0; x < tower.Count; x++)
             {
-                for (int y = 0; y <= tower.Count - x; y++)
-                    Console.Write(" ");
+                int space = (diskMax - tower.ElementAt(x).Length) / 2;
+
+                Console.Write(new string(' ', space));
 
                 if (tower.ElementAt(x).Length == 3)
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -205,8 +218,11 @@ namespace TowerOfHanoiAgain
                 else if (tower.ElementAt(x).Length == 15)
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
 
-                Console.WriteLine(tower.ElementAt(x));
+                Console.Write(tower.ElementAt(x));
                 Console.ResetColor();
+                Console.Write(new string(' ', space));
+
+                Console.WriteLine();
             }
         }
         static void diskMoving(Stack<string> fromT, Stack<string> toT)
