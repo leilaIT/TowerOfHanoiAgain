@@ -25,9 +25,9 @@ namespace TowerOfHanoiAgain
             int diskNum = 0;
             double pScore = 0;
             double baseNum = 2;
+            string input = "";
             string from = "";
             string to = "";
-            string input = "";
             string[] toSplit = new string[] { };
             int moves = 0;
             string mode = "";
@@ -36,24 +36,24 @@ namespace TowerOfHanoiAgain
             level = setupFile(level);
             if (level == 1)
             {
-                a = 6;
+                a = 7;
                 diskNum = 3;
                 mode = "Easy";
             }
             else if (level == 2)
             {
-                a = 8;
+                a = 9;
                 diskNum = 5;
                 mode = "Medium";
             }
             else if (level == 3)
             {
-                a = 10;
+                a = 11;
                 diskNum = 7;
                 mode = "Hard";
             }
 
-            history.Add("This is the move history for the last played game of " + mode + " difficulty.");
+            history.Add("This is the move history for the last played game of " + mode + " difficulty.\n");
 
             //perfect score
             pScore = Math.Pow(baseNum, diskNum) - 1;
@@ -107,7 +107,6 @@ namespace TowerOfHanoiAgain
                     else
                         break;
                 }
-
                 Console.Clear();
 
                 if (from == "0")
@@ -184,6 +183,7 @@ namespace TowerOfHanoiAgain
         }
         static void displayTower(Stack<string>[] allTowers, List<string>disks, int diskNum)
         {
+            Console.WriteLine();
             int space = 0;
             int diskMax = disks[diskNum - 1].Length;
           
@@ -216,14 +216,14 @@ namespace TowerOfHanoiAgain
                         Console.ResetColor();
 
                         Console.Write(new string(' ', space));
-                        Console.Write("|");
+                        Console.Write("  ");
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(disks[diskNum - 1]);
                         Console.ResetColor();
-                        Console.Write("|");
+                        Console.Write("  ");
                     }
                 }
                 Console.WriteLine();
